@@ -12,6 +12,8 @@ function faixaValida (min, max, entrada){
 
 function verificaAno(dataNascimento,dataFormatada,erro){
 
+console.log(dataNascimento)
+
    if (!faixaValida(anoMinimo,dataFormatada[0],dataNascimento[0])){
       document.getElementById("erro").style.visibility = "visible";
       document.getElementById("erro").appendChild(document.createElement("p")).textContent = "Ano fora de padrão! Insira um ano entre 1900 e " + dataFormatada[0]
@@ -20,6 +22,7 @@ function verificaAno(dataNascimento,dataFormatada,erro){
       document.getElementById("erro").style.visibility = "visible";
       document.getElementById("erro").appendChild(document.createElement("p")).textContent = "O cadastro não é permitido para individuos com menos de 15 anos!"
    }
+   return false;
 
 }
 
@@ -27,19 +30,19 @@ function verificaInteresse(){
    let interesse = document.getElementById("interesses").getElementsByTagName("input")
    let interessePreenchido = false;
    for(let i = 0; i < interesse.length; i++){
-      if(interesse[i].checked===true){
+      if(interesse[i].checked){
          interessePreenchido = true;
          break;
       }
    }
+   return interessePreenchido;
 }
 
 
 btnEnviar.addEventListener("click", (event)=>{
 
    event.preventDefault();
-
-
+   let validou = true;
 
    const erro = document.getElementById("erro");
 
@@ -58,7 +61,15 @@ btnEnviar.addEventListener("click", (event)=>{
    if (!verificaInteresse()){
       document.getElementById("erro").style.visibility = "visible";
       document.getElementById("erro").appendChild(document.createElement("p")).textContent = "É necessário preencher pelo menos um item da lista de interesses!"
+      validou = false;
    }
+   
+   if (validou){
+      document.getElementById("erro").style.visibility = "hidden";
+      alert("Dados válidados com sucesso!")
+   }
+      
+   
 
 })
 
