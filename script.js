@@ -12,17 +12,17 @@ function faixaValida (min, max, entrada){
 
 function verificaAno(dataNascimento,dataFormatada,erro){
 
-console.log(dataNascimento)
-
    if (!faixaValida(anoMinimo,dataFormatada[0],dataNascimento[0])){
       document.getElementById("erro").style.visibility = "visible";
       document.getElementById("erro").appendChild(document.createElement("p")).textContent = "Ano fora de padrão! Insira um ano entre 1900 e " + dataFormatada[0]
+      return false;
    }
    else if (dataNascimento[0] > dataFormatada[0] - 15){
       document.getElementById("erro").style.visibility = "visible";
       document.getElementById("erro").appendChild(document.createElement("p")).textContent = "O cadastro não é permitido para individuos com menos de 15 anos!"
+      return false;
    }
-   return false;
+   return true;
 
 }
 
@@ -38,11 +38,25 @@ function verificaInteresse(){
    return interessePreenchido;
 }
 
+function verificaData(dNascimento){
+   for(let i = 0; i < dNascimento.length; i++ ){
+      if (dNascimento[i] === ''){
+         return false;
+      }
+   }
+   return true;
+}
 
 btnEnviar.addEventListener("click", (event)=>{
 
-   event.preventDefault();
+   let dataNascimento = document.getElementById("data").value
    let validou = true;
+
+   dataNascimento = dataNascimento.split("-");
+
+   console.log(dataNascimento)
+
+   event.preventDefault();
 
    const erro = document.getElementById("erro");
 
@@ -50,14 +64,18 @@ btnEnviar.addEventListener("click", (event)=>{
       erro.removeChild(erro.firstChild);
    }
 
-   let dataNascimento = document.getElementById("data").value
-   dataNascimento = dataNascimento.split("-");
-
    const dataAtual = new Date();
    const dataFormatada = [dataAtual.getFullYear(),dataAtual.getMonth() + 1,dataAtual.getDate()]
-   console.log(dataFormatada);
 
-   verificaAno(dataNascimento,dataFormatada,erro);
+
+   if (!verificaData(dataNascimento)){
+      document.getElementById("erro").style.visibility = "visible";
+      document.getElementById("erro").appendChild(document.createElement("p")).textContent = "É necessário preencher todos os campos da data!"
+      validou = false;
+   }
+   else if (!verificaAno(dataNascimento,dataFormatada,erro)){
+    validou = false;
+   };
    if (!verificaInteresse()){
       document.getElementById("erro").style.visibility = "visible";
       document.getElementById("erro").appendChild(document.createElement("p")).textContent = "É necessário preencher pelo menos um item da lista de interesses!"

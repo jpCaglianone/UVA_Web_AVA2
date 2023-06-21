@@ -2,10 +2,16 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
 }
-
+h1{
+    margin-top: 85px;
+    background: #fae1e1;
+    padding: 10px;
+}
 form {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 50px auto;
+    border: 5px #f5acac dotted;
+    padding: 25px;
 }
 h1{
     text-align: center;
